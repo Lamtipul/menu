@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tonight's Menu - Fine Dining</title>
+
+  <style>
+    :root {
+      --cream: #f8f0e5;
+      --paper: #fffaf3;
+      --gold: #d4a017;
+      --brown: #8b4513;
+      --dark-brown: #4b2e1f;
+      --soft-brown: #7a5a3a;
+      --wine: #6f1d1b;
+      --shadow: rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--dark-brown);
+      background:
+        radial-gradient(circle at top, rgba(212, 160, 23, 0.14), transparent 35%),
+        linear-gradient(135deg, #f7efe4, #fffaf3);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 56px;
+      background: rgba(255, 250, 243, 0.96);
+      border: 10px double var(--gold);
+      border-radius: 24px;
+      box-shadow: 0 22px 60px var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before,
+    .container::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 160, 23, 0.22), transparent 70%);
+      pointer-events: none;
+    }
+
+    .container::before {
+      top: -70px;
+      left: -70px;
+    }
+
+    .container::after {
+      bottom: -70px;
+      right: -70px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 55px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      color: var(--brown);
+      letter-spacing: 1px;
+      font-weight: normal;
+    }
+
+    .subtitle {
+      margin: 14px auto 0;
+      max-width: 680px;
+      color: var(--soft-brown);
+      font-style: italic;
+      font-size: 1.15rem;
+    }
+
+    .divider {
+      width: 280px;
+      height: 2px;
+      margin: 26px auto 0;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .section {
+      margin-top: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 28px;
+      color: var(--brown);
+      font-size: 2rem;
+      font-style: italic;
+      font-weight: normal;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: "✦";
+      color: var(--gold);
+      font-size: 0.75em;
+      margin: 0 14px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .menu-card {
+      padding: 26px;
+      background: #ffffff;
+      border: 1px solid rgba(212, 160, 23, 0.38);
+      border-radius: 18px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.07);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.11);
+    }
+
+    .dish-name {
+      margin: 0 0 10px;
+      color: var(--dark-brown);
+      font-size: 1.45rem;
+      font-style: italic;
+      font-weight: normal;
+    }
+
+    .dish-name::after {
+      content: "";
+      display: block;
+      width: 62px;
+      height: 2px;
+      margin-top: 9px;
+      background: var(--gold);
+      opacity: 0.65;
+    }
+
+    .description {
+      margin: 0;
+      color: #4f4038;
+    }
+
+    .note {
+      margin-top: 12px;
+      color: var(--brown);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    .drinks-section {
+      padding: 38px;
+      background:
+        linear-gradient(135deg, rgba(111, 29, 27, 0.96), rgba(139, 69, 19, 0.95)),
+        radial-gradient(circle at top left, rgba(212, 160, 23, 0.24), transparent 35%);
+      border: 4px solid var(--gold);
+      border-radius: 24px;
+      color: white;
+      box-shadow: 0 18px 40px rgba(111, 29, 27, 0.32);
+    }
+
+    .drinks-section .section-title {
+      color: #ffe7b0;
+      margin-top: 0;
+    }
+
+    .drinks-section .menu-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 231, 176, 0.45);
+      box-shadow: none;
+      backdrop-filter: blur(3px);
+    }
+
+    .drinks-section .dish-name,
+    .drinks-section .description,
+    .drinks-section .note {
+      color: white;
+    }
+
+    .drinks-section .dish-name::after {
+      background: #ffe7b0;
+    }
+
+    .take-home {
+      margin-top: 70px;
+      padding: 32px;
+      text-align: center;
+      background: #fff5e5;
+      border: 2px dashed var(--gold);
+      border-radius: 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .take-home h2 {
+      margin: 0 0 12px;
+      color: var(--brown);
+      font-size: 1.9rem;
+      font-style: italic;
+      font-weight: normal;
+    }
+
+    .take-home p {
+      margin: 0;
+      color: var(--dark-brown);
+      font-size: 1.05rem;
+    }
+
+    .take-home-items {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .take-home-item {
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid rgba(212, 160, 23, 0.45);
+      border-radius: 999px;
+      color: var(--brown);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .container {
+        padding: 32px 22px;
+      }
+
+      .section {
+        margin-top: 46px;
+      }
+
+      .drinks-section {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <header>
+      <h1>Tonight's Menu</h1>
+      <p class="subtitle">
+        A fine dining evening of French classics, Mediterranean flavors, refreshing drinks, and comforting homemade touches.
+      </p>
+      <div class="divider"></div>
+    </header>
+
+    <!-- ENTRÉES -->
+    <section class="section">
+      <h2 class="section-title">Entrées</h2>
+
+      <div class="menu-grid">
+        <article class="menu-card">
+          <h3 class="dish-name">Zaalouk Focaccia</h3>
+          <p class="description">
+            House-made focaccia with a Moroccan-inspired roasted eggplant and tomato twist.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Greek Salad</h3>
+          <p class="description">
+            Crisp cucumber, fresh tomatoes, feta cheese, herbs, and a bright Mediterranean dressing.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- MAINS -->
+    <section class="section">
+      <h2 class="section-title">Mains</h2>
+
+      <div class="menu-grid">
+        <article class="menu-card">
+          <h3 class="dish-name">Poulet Rôti</h3>
+          <p class="description">
+            Roasted chicken stuffed with herbs and citrus.
+          </p>
+          <p class="note">
+            Served with vegetables and your choice of mushroom wine sauce or mustard velouté.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Entrecôte de Bœuf</h3>
+          <p class="description">
+            Pan-seared ribeye steak, cooked until beautifully browned and tender.
+          </p>
+          <p class="note">
+            Served with roasted vegetables and your choice of mushroom wine sauce, red wine sauce, or pepper sauce.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Roasted Lamb Rack</h3>
+          <p class="description">
+            Whole lamb rack crusted with herbs and spices, then roasted to perfection.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SIDE DISHES -->
+    <section class="section">
+      <h2 class="section-title">Side Dishes</h2>
+
+      <div class="menu-grid">
+        <article class="menu-card">
+          <h3 class="dish-name">Gratin Dauphinois</h3>
+          <p class="description">
+            Creamy layered potatoes baked with Gruyère cheese.
+          </p>
+          <p class="note">
+            A richer side dish, slightly higher in carbs and calories.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Ratatouille</h3>
+          <p class="description">
+            Classic Provençal roasted vegetables with olive oil, herbs, and gentle sweetness.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Hummus or Baba Ganoush</h3>
+          <p class="description">
+            A Mediterranean chickpea or roasted eggplant dip.
+          </p>
+          <p class="note">
+            Pairs beautifully with the focaccia and comes with house-made bread.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- DESSERTS -->
+    <section class="section">
+      <h2 class="section-title">Desserts</h2>
+
+      <div class="menu-grid">
+        <article class="menu-card">
+          <h3 class="dish-name">Classic Tiramisu</h3>
+          <p class="description">
+            A creamy coffee-soaked Italian classic, with the option of a unique house twist.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Fruit Tarts</h3>
+          <p class="description">
+            Buttery tart shells filled with cream and seasonal fruit, depending on availability.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Cherry & Strawberry Clafoutis</h3>
+          <p class="description">
+            Whole cherries and strawberries baked into a delicate custard-like batter.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- DRINKS -->
+    <section class="section drinks-section">
+      <h2 class="section-title">Drinks</h2>
+
+      <div class="menu-grid">
+        <article class="menu-card">
+          <h3 class="dish-name">North African Karkade</h3>
+          <p class="description">
+            Hibiscus tea with aromatics.
+          </p>
+          <p class="note">
+            Refreshing, floral, and lightly tart.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Wine Selection</h3>
+          <p class="description">
+            Wine choices depend on availability.
+          </p>
+          <p class="note">
+            Red, white, or rosé.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Soft Drinks</h3>
+          <p class="description">
+            A selection of chilled soft drinks.
+          </p>
+          <p class="note">
+            100% sugar-free.
+          </p>
+        </article>
+
+        <article class="menu-card">
+          <h3 class="dish-name">Virgin Mojito</h3>
+          <p class="description">
+            Mint, lime, sparkling water, and a bright refreshing finish.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TAKE HOME -->
+    <section class="take-home">
+      <h2>Take Home</h2>
+      <p>A small treat, carefully crafted for you to enjoy later.</p>
+
+      <div class="take-home-items">
+        <span class="take-home-item">Caramel Popcorn</span>
+        <span class="take-home-item">Chess-Themed Cookies</span>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
